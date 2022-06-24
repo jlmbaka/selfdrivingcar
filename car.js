@@ -17,7 +17,25 @@ class Car {
 
   update(roadBorders) {
     this.#move();
+    this.polygon = this.#createPolygon();
     this.sensor.update(roadBorders);
+  }
+
+  #createPolygon() {
+    const points = [];
+    const radius = Math.hypot(this.width, this.height) / 2;
+    const alpha = Math.atan2(this.width, this.height);
+
+    for (let j = 0; j <= 1; j++) {
+      for (let i = -1; i <= 1; i += 2) {
+        points.push({
+          x: this.x - Math.sin(Math.PI * j + this.angle + i * alpha) * radius,
+          y: this.y - Math.cos(Math.PI * j + this.angle + i * alpha) * radius,
+        });
+      }
+    }
+
+    return points;
   }
 
   #move() {
@@ -61,16 +79,13 @@ class Car {
   }
 
   draw(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(-this.angle);
-
     ctx.beginPath();
-    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+    for (let i = 0; i < this.polygon.length; i++) {
+      const args = [this.polygon[i].x, this.polygon[i].y];
+      if (i == 0) ctx.moveTo(...args);
+      ctx.lineTo(...args);
+    }
     ctx.fill();
-
-    ctx.restore();
-
     this.sensor.draw(ctx);
   }
 }
