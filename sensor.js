@@ -1,20 +1,26 @@
 class Sensor {
   constructor(car) {
     this.car = car;
-    this.rayCount = 3;
-    this.rayLength = 100;
-    this.raySpread = Math.PI / 4;
+    this.rayCount = 1;
+    this.rayLength = 150;
+    this.raySpread = Math.PI / 2;
 
     this.rays = [];
   }
 
   update() {
     this.rays = [];
-    // figure out the angle of each ray
+
+    // Figure out the angle of each ray
     for (let i = 0; i < this.rayCount; i++) {
-      const rayAngle =
-        lerp(this.raySpread / 2, -this.raySpread / 2, i / (this.rayCount - 1)) +
-        this.car.angle;
+      let rayAngle = lerp(
+        this.raySpread / 2,
+        -this.raySpread / 2,
+        this.rayCount == 1 ? 0.5 : i / Math.max(0.5, this.rayCount - 1)
+      );
+
+      // Rotate rays with car angle
+      rayAngle += this.car.angle;
 
       // Start and end point of our ray
       const rayStartPoint = { x: this.car.x, y: this.car.y }; // just the car
@@ -29,7 +35,7 @@ class Sensor {
 
   draw(ctx) {
     for (let i = 0; i < this.rayCount; i++) {
-      // draw a line between the start and end points
+      // Draw a line between the start and end points
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "yellow";
