@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 const margin = 0.9;
 const road = new Road(canvas.width / 2, canvas.width * margin);
 // draw car
-const car = new Car(road.getLaneCenter(2), 100, 30, 50);
+const car = new Car(road.getLaneCenter(1), 100, 30, 50);
 
 // animate
 animate();
