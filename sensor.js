@@ -12,11 +12,9 @@ class Sensor {
     this.rays = [];
     // figure out the angle of each ray
     for (let i = 0; i < this.rayCount; i++) {
-      const rayAngle = lerp(
-        this.raySpread / 2,
-        -this.raySpread / 2,
-        i / (this.rayCount - 1)
-      );
+      const rayAngle =
+        lerp(this.raySpread / 2, -this.raySpread / 2, i / (this.rayCount - 1)) +
+        this.car.angle;
 
       // Start and end point of our ray
       const rayStartPoint = { x: this.car.x, y: this.car.y }; // just the car
