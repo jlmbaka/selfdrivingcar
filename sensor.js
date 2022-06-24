@@ -1,14 +1,43 @@
 class Sensor {
   constructor(car) {
     this.car = car;
-    this.rayCount = 1;
+    this.rayCount = 11;
     this.rayLength = 150;
     this.raySpread = Math.PI / 2;
 
     this.rays = [];
+    this.readings = [];
   }
 
-  update() {
+  update(roadBorders) {
+    this.#castRays();
+    this.readings = [];
+    for (let i = 0; i < this.rays.length; i++) {
+      this.readings.push(this.#getReading(this.rays[i], roadBorders));
+    }
+  }
+
+  #getReading(ray, roadBorders) {
+    const touches = [];
+    for (let i = 0; i < roadBorders.length; i++) {
+      const touch = getIntersection(
+        ray[0],
+        ray[1],
+        roadBorders[i][0],
+        roadBorders[i][1]
+      );
+      if (touch) {
+        touches.push(touch);
+      }
+    }
+
+    if (touches.length == 0) return null;
+    const offsets = touches.map((e) => e.offsets);
+    const minOffset = Math.min(...offsets);
+    return touches.find((e) => e.offset == minOffset);
+  }
+
+  #castRays() {
     this.rays = [];
 
     // Figure out the angle of each ray
