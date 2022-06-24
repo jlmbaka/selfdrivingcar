@@ -1,7 +1,7 @@
 class Sensor {
   constructor(car) {
     this.car = car;
-    this.rayCount = 11;
+    this.rayCount = 5;
     this.rayLength = 150;
     this.raySpread = Math.PI / 2;
 
@@ -19,6 +19,7 @@ class Sensor {
 
   #getReading(ray, roadBorders) {
     const touches = [];
+
     for (let i = 0; i < roadBorders.length; i++) {
       const touch = getIntersection(
         ray[0],
@@ -32,7 +33,7 @@ class Sensor {
     }
 
     if (touches.length == 0) return null;
-    const offsets = touches.map((e) => e.offsets);
+    const offsets = touches.map((e) => e.offset);
     const minOffset = Math.min(...offsets);
     return touches.find((e) => e.offset == minOffset);
   }
@@ -64,12 +65,24 @@ class Sensor {
 
   draw(ctx) {
     for (let i = 0; i < this.rayCount; i++) {
+      let end = this.rays[i][1];
+      if (this.readings[i]) {
+        end = this.readings[i];
+      }
       // Draw a line between the start and end points
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "yellow";
       ctx.moveTo(this.rays[i][0].x, this.rays[i][0].y);
-      ctx.lineTo(this.rays[i][1].x, this.rays[i][1].y);
+      ctx.lineTo(end.x, end.y);
+      ctx.stroke();
+
+      // Draw a line between the start and end points
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.moveTo(this.rays[i][1].x, this.rays[i][1].y);
+      ctx.lineTo(end.x, end.y);
       ctx.stroke();
     }
   }

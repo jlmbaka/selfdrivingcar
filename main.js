@@ -2,9 +2,11 @@ const canvas = document.getElementById("myCanvas");
 canvas.width = 200;
 
 const ctx = canvas.getContext("2d");
+
 // draw road
 const margin = 0.9;
 const road = new Road(canvas.width / 2, canvas.width * margin);
+
 // draw car
 const car = new Car(road.getLaneCenter(1), 100, 30, 50);
 
