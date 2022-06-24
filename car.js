@@ -11,11 +11,13 @@ class Car {
     this.friction = 0.05;
     this.angle = 0;
 
+    this.sensor = new Sensor(this);
     this.controls = new Controls();
   }
 
   update() {
     this.#move();
+    this.sensor.update();
   }
 
   #move() {
@@ -58,15 +60,17 @@ class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  draw(context) {
-    context.save();
-    context.translate(this.x, this.y);
-    context.rotate(-this.angle);
+  draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(-this.angle);
 
-    context.beginPath();
-    context.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-    context.fill();
+    ctx.beginPath();
+    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.fill();
 
-    context.restore();
+    ctx.restore();
+
+    this.sensor.draw(ctx);
   }
 }
