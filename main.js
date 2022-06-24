@@ -15,8 +15,18 @@ function animate() {
   car.update();
   canvas.height = window.innerHeight;
 
+  ctx.save();
+
+  keepCarCentredAt(car);
+
   road.draw(ctx);
   car.draw(ctx);
 
+  ctx.restore();
+
   requestAnimationFrame(animate);
+}
+
+function keepCarCentredAt(car, percent = 0.7) {
+  ctx.translate(0, -car.y + canvas.height * 0.7); // keep the car at 70%
 }
