@@ -8,10 +8,10 @@ const margin = 0.9;
 const road = new Road(canvas.width / 2, canvas.width * margin);
 
 // draw car
-const car = new Car(road.getLaneCenter(1), 100, 30, 50);
+const car = new Car(road.getLaneCenter(1), 100, 30, 50, "KEYS");
 
 // the traffic
-const traffic = [new Car(road.getLaneCenter(1), -100, 30, 50)];
+const traffic = [new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY")];
 // animate
 animate();
 
