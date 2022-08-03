@@ -16,8 +16,8 @@ const traffic = [new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2)];
 animate();
 
 function animate() {
-  for (let i = 0; i < traffic.length; i++) traffic[i].update(road.borders);
-  car.update(road.borders);
+  for (let i = 0; i < traffic.length; i++) traffic[i].update(road.borders, []);
+  car.update(road.borders, traffic);
   canvas.height = window.innerHeight;
 
   ctx.save();
