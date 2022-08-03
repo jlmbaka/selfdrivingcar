@@ -23,6 +23,8 @@ function getIntersection(a, b, c, d) {
 }
 
 function polysIntersect(poly1, poly2) {
+  // compare all the segnments from the first polygon to
+  // segments for the second
   for (let i = 0; i < poly1.length; i++) {
     for (let j = 0; j < poly2.length; j++) {
       const touch = getIntersection(
