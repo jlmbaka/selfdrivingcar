@@ -108,9 +108,9 @@ class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  draw(ctx) {
+  draw(ctx, color) {
     ctx.beginPath();
-    ctx.fillStyle = this.damaged ? "gray" : "black";
+    ctx.fillStyle = this.damaged ? "gray" : color;
     for (let i = 0; i < this.polygon.length; i++) {
       const args = [this.polygon[i].x, this.polygon[i].y];
       if (i == 0) ctx.moveTo(...args);
