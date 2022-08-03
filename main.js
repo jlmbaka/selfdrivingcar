@@ -11,7 +11,7 @@ const road = new Road(canvas.width / 2, canvas.width * margin);
 const car = new Car(road.getLaneCenter(1), 100, 30, 50, "KEYS");
 
 // the traffic
-const traffic = [new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY")];
+const traffic = [new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2)];
 // animate
 animate();
 
