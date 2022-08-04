@@ -12,26 +12,8 @@ class Visualiser {
   static drawLevel(ctx, level, left, top, width, height) {
     const right = left + width;
     const bottom = top + height;
-    const { inputs, outputs } = level;
+    const { inputs, outputs, weights } = level;
     const nodeRadius = 18;
-
-    // draw input neurons
-    for (let i = 0; i < inputs.length; i++) {
-      const x = Visualiser.#getNodeX(inputs, i, left, right);
-      ctx.beginPath();
-      ctx.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "white";
-      ctx.fill();
-    }
-
-    // draw outputs neurons
-    for (let i = 0; i < outputs.length; i++) {
-      const x = Visualiser.#getNodeX(outputs, i, left, right);
-      ctx.beginPath();
-      ctx.arc(x, top, nodeRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "white";
-      ctx.fill();
-    }
 
     // draw the axons between the input & output nodes
     for (let i = 0; i < inputs.length; i++) {
@@ -39,10 +21,33 @@ class Visualiser {
         ctx.beginPath();
         ctx.moveTo(Visualiser.#getNodeX(inputs, i, left, right), bottom);
         ctx.lineTo(Visualiser.#getNodeX(outputs, j, left, right), top);
-        ctx.linewidth = 2;
-        ctx.strokeStyle = "orange";
+        ctx.lineWidth = 3;
+        const value = weights[i][j];
+        const alpha = Math.abs(value);
+        const R = value < 0 ? 0 : 255;
+        const G = R;
+        const B = value > 0 ? 0 : 255;
+        ctx.strokeStyle = `rgba(${R},${G},${B},${alpha})`;
         ctx.stroke();
       }
+    }
+
+    // draw input neurons
+    for (let i = 0; i < inputs.length; i++) {
+      drawNeuron(inputs, i, left, right, bottom);
+    }
+
+    // draw outputs neurons
+    for (let i = 0; i < outputs.length; i++) {
+      drawNeuron(outputs, i, left, right, top);
+    }
+
+    function drawNeuron(nodes, index, left, right, position) {
+      const x = Visualiser.#getNodeX(nodes, index, left, right);
+      ctx.beginPath();
+      ctx.arc(x, position, nodeRadius, 0, Math.PI * 2);
+      ctx.fillStyle = "white";
+      ctx.fill();
     }
   }
 
