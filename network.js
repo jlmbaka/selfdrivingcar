@@ -1,14 +1,14 @@
 class NeuralNetwork {
   constructor(neuronCounts) {
     this.levels = [];
-    for (let i = 0; i < neuronCounts.length; i++) {
+    for (let i = 0; i < neuronCounts.length - 1; i++) {
       this.levels.push(new Level(neuronCounts[i], neuronCounts[i + 1]));
     }
   }
 
   static feedForward(givenInputs, network) {
     let outputs = Level.feedForward(givenInputs, network.levels[0]);
-    for (let i = 0; i < network.levels.length; i++) {
+    for (let i = 1; i < network.levels.length; i++) {
       outputs = Level.feedForward(outputs, network.levels[i]);
     }
     return outputs;
@@ -22,7 +22,7 @@ class Level {
     this.biases = new Array(outputCount);
 
     this.weights = [];
-    for (let i = 0; i < inputCounts; i++) {
+    for (let i = 0; i < inputCount; i++) {
       this.weights[i] = new Array(outputCount);
     }
     Level.#randomize(this);
@@ -44,14 +44,14 @@ class Level {
     for (let i = 0; i < level.inputs.length; i++) {
       level.inputs[i] = givenInputs[i];
     }
+
     for (let i = 0; i < level.outputs.length; i++) {
       let sum = 0;
-      for (let j = 0; j < level.input.length; j++) {
-        sum += level.input[j] * level.weights[j][i];
+      for (let j = 0; j < level.inputs.length; j++) {
+        sum += level.inputs[j] * level.weights[j][i];
       }
-      level.inputs[i] = givenInputs[i];
+      level.outputs[i] = sum > level.biases[i] ? 1 : 0;
     }
-    level.outputs[i] = sum + level.biases[i] > 0 ? 1 : 0;
     return level.outputs;
   }
 }
