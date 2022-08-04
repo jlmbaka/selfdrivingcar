@@ -1,9 +1,14 @@
 body {
-    margin: 0;
-    background: darkgray;
-    overflow: hidden;
-    text-align: center;
+  margin: 0;
+  background: darkgray;
+  overflow: hidden;
+  text-align: center;
 }
-#myCanvas {
-    background: lightgray;
+
+#carCanvas {
+  background: lightgray;
+}
+
+#networkCanvas {
+  background: black;
 }
